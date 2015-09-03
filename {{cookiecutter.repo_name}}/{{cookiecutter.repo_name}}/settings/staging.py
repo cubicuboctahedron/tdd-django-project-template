@@ -1,16 +1,16 @@
 # Staging server config
 import string
 import logging
-from PROJECT_NAME.settings.production import *
+from {{cookiecutter.repo_name}}.settings.production import *
 
 SECRET_KEY = '' #Update me
 
 # Updated in deployment script
-DATABASES["default"]["NAME"] = "staging.PROJECT_NAME"
-DATABASES["default"]["USER"] = "PROJECT_NAME"
+DATABASES["default"]["NAME"] = "{{cookiecutter.repo_name}}"
+DATABASES["default"]["USER"] = "{{cookiecutter.repo_name}}"
 DATABASES["default"]["PASSWORD"] = ""
 
-ALLOWED_HOSTS = ['staging.PROJECT_HOST_NAME', ]
+ALLOWED_HOSTS = ['staging.{{cookiecutter.domain_name}}', ]
 
 INSTALLED_APPS += (
     'django_nose',
@@ -39,7 +39,7 @@ if TEST:
     logging.disable(logging.CRITICAL)
 
     # used to check domain is set correctly, getting overriden by deploy script
-    DOMAIN = 'staging.PROJECT_HOST_NAME'
+    DOMAIN = 'staging.{{cookiecutter.domain_name}}'
 
     PORT = ':8081'
     DOMAIN += PORT
@@ -52,7 +52,7 @@ if TEST:
         'django.contrib.auth.hashers.MD5PasswordHasher',
     )
     TEST_EMAILS_PREFIX = ""
-    TEST_EMAILS_DOMAIN = "@test.example.com"
+    TEST_EMAILS_DOMAIN = "@test.{{cookiecutter.domain_name}}"
 
     # Disable HTTPS for tests
     SESSION_COOKIE_SECURE = False
@@ -61,7 +61,9 @@ if TEST:
     USE_HTTPS = False
     os.environ['HTTPS'] = "off"
 
-    #WSGI_APPLICATION = 'ws4redis.django_runserver.application' # Uncomment if websockets are enabled
+    {% if cookiecutter.use_websockets == "y" %}
+    WSGI_APPLICATION = 'ws4redis.django_runserver.application'
+    {% endif %}
 
     PROJECT_APPS = (
         'main',

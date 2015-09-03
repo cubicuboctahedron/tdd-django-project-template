@@ -1,13 +1,13 @@
-# Base config, everything is inhereted from it
+# Base config, everything is inherited from it
 import os
 import sys
 gettext = lambda s: s
 BASE_DIR = os.path.dirname(os.path.realpath(os.path.dirname(__file__) + "/.."))
 
+SITE_ID = 1
+
 DEBUG = False
 TEMPLATE_DEBUG = False
-
-SITE_ID = 1
 
 # Application definition
 INSTALLED_APPS = (
@@ -29,9 +29,18 @@ INSTALLED_APPS = (
     #'crispy_forms',
     #'reversion',
     #'ws4redis',
-    #'rest_framework',
+    {% if cookiecutter.use_rest_framework == "y" %}
+    'oauth2_provider',
+    'rest_framework',
+    {% endif %}
     #'bootstrap_pagination',
-    #'djcelery_email',
+    {% if cookiecutter.use_websockets == "y" %}
+    "ws4redis",
+    {% endif %}
+    {% if cookiecutter.use_celery == "y" %}
+    'kombu.transport.django',
+    'djcelery_email',
+    {% endif %}
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,22 +66,21 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
-                #'ws4redis.context_processors.default',
+                {% if cookiecutter.use_websockets == "y" %}
+                'ws4redis.context_processors.default',
+                {% endif %}
             ],
         },
     },
 ]
 
-ROOT_URLCONF = 'PROJECT_NAME.urls'
+ROOT_URLCONF = '{{cookiecutter.repo_name}}.urls'
 
-WSGI_APPLICATION = 'PROJECT_NAME.wsgi.application'
+WSGI_APPLICATION = '{{cookiecutter.repo_name}}.wsgi.application'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'PROJECT_HOST_NAME',
-        'USER': 'PROJECT_NAME',
-        'PASSWORD': '',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -129,23 +137,27 @@ PRIVATE_FILES_MEDIA_ROOT = os.path.abspath(
 # Email
 MANDRILL_API_KEY = "" # Used in production
 MANDRILL_TEST_API_KEY = "" # Used in integration tests
+{% if cookiecutter.use_celery == "n" %}
 # Send emails via Mandrill (djrill package)
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+{% else %}
 # Send emails with celery delayed task via Mandrill (djrill package)
-#EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
-#CELERY_EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
-SERVER_EMAIL = 'error-reporting@PROJECT_HOST_NAME'
-DEFAULT_FROM_EMAIL = 'PROJECT_NAME <info@PROJECT_HOST_NAME>'
-ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
-)
-
+EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+CELERY_EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 # Celery Email Backend 
 CELERY_EMAIL_TASK_CONFIG = {
     'default_retry_delay': 600, 
     'max_retries': 3,
 }
 CELERY_EMAIL_CHUNK_SIZE = 10
+{% endif %}
+
+SERVER_EMAIL = 'error-reporting@{{cookiecutter.domain_name}}'
+DEFAULT_FROM_EMAIL = 'PROJECT_NAME <info@{{cookiecutter.domain_name}}>'
+ADMINS = (
+    ("""{{cookiecutter.author_name}}""", '{{cookiecutter.email}}'),
+)
+MANAGERS = ADMINS
 
 # Auth
 AUTH_USER_MODEL = 'main.User'
@@ -153,6 +165,7 @@ AUTH_USER_MODEL = 'main.User'
 LOGIN_URL = '/user/login'
 LOGIN_REDIRECT_URL = 'main:index'
 
+{% if cookiecutter.use_websockets == "y" %}
 # Websockets
 WEBSOCKET_URL = '/ws/'
 WS4REDIS_PREFIX = 'ws'
@@ -160,7 +173,9 @@ WS4REDIS_EXPIRE = 0
 WS4REDIS_HEARTBEAT = 'heartbeat'
 from main.websockets import get_allowed_websocket_channels
 WS4REDIS_ALLOWED_CHANNELS = get_allowed_websocket_channels
+{% endif %}
 
+{% if cookiecutter.use_rest_framework == "y" %}
 # REST-Framework
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -172,6 +187,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
 }
+{% endif %}
 
 # Date formatting
 DATETIME_FIELD_FORMAT = '%-d %b %Y %H:%M'

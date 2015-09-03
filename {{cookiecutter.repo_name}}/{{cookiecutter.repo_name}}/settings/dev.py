@@ -2,13 +2,13 @@ from PROJECT_NAME.settings.staging import *
 
 SECRET_KEY = '' # Update me
 
-DATABASES["default"]["NAME"] = "dev.PROJECT_NAME"
-DATABASES["default"]["USER"] = "PROJECT_NAME"
-DATABASES["default"]["PASSWORD"] = "PROJECT_NAME"
+DATABASES["default"]["NAME"] = "{{cookiecutter.repo_name}}"
+DATABASES["default"]["USER"] = "{{cookiecutter.repo_name}}"
+DATABASES["default"]["PASSWORD"] = ""
 
 DEBUG = True
 TEMPLATE_DEBUG = True
-INTERNAL_IPS = ['127.0.0.1', 'VIRTUAL_MACHINE_IP', ]
+INTERNAL_IPS = ['127.0.0.1', '{{cookiecutter.vm_ip}}', ]
 
 # Disable django-compressor for dev environment 
 COMPRESS_ENABLED = False
@@ -17,7 +17,7 @@ COMPRESS_OUTPUT_DIR = ''
 COMPRESS_JS_FILTERS = []
 COMPRESS_CSS_FILTERS = []
         
-ALLOWED_HOSTS = ['VIRTUAL_MACHINE_IP', ]
+ALLOWED_HOSTS = ['{{cookiecutter.vm_ip}}', ]
 
 if not TEST:
     INSTALLED_APPS += (
@@ -80,11 +80,13 @@ LOGGING = {
     },
 }
 
-#WSGI_APPLICATION = 'ws4redis.django_runserver.application' # Uncomment if websockets are enabled
+{% if cookiecutter.use_websockets == "y" %}
+WSGI_APPLICATION = 'ws4redis.django_runserver.application'
+{% endif %}
 
 if TEST:
     COMPRESS_ENABLED = True
-    DOMAIN = 'VIRTUAL_MACHINE_IP:8081'
+    DOMAIN = '{{cookiecutter.vm_ip}}:8081'
     os.environ["DJANGO_LIVE_TEST_SERVER_ADDRESS"] = DOMAIN
     
     # to use postgres in tests, set env variable use_postgres

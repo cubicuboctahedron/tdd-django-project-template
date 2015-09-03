@@ -4,8 +4,7 @@ from celery import Celery
 from kombu import Queue, Exchange
 from django.conf import settings
 
-# set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'PROJECT_NAME.current_settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', '{{cookiecutter.repo_name}}.current_settings')
 
 app = Celery('main')
 

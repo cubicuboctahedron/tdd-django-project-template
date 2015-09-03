@@ -1,13 +1,13 @@
 # Production server config
-from PROJECT_NAME.settings.base import *
+from {{cookiecutter.repo_name}}.settings.base import *
 
 SECRET_KEY = ''
 
-ALLOWED_HOSTS = ['PROJECT_HOST_NAME', 'www.PROJECT_HOST_NAME', ]
+ALLOWED_HOSTS = ['{{cookiecutter.domain_name}}', 'www.{{cookiecutter.domain_name}}', ]
 
 # Updated in deployment script
-DATABASES["default"]["NAME"] = 'PROJECT_HOST_NAME'
-DATABASES["default"]["USER"] = 'PROJECT_NAME'
+DATABASES["default"]["NAME"] = '{{cookiecutter.repo_name}}'
+DATABASES["default"]["USER"] = '{{cookiecutter.repo_name}}'
 DATABASES["default"]["PASSWORD"] = ''
 
 # HTTPS
