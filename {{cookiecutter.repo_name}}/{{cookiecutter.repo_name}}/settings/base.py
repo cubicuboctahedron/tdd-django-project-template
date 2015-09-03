@@ -153,7 +153,7 @@ CELERY_EMAIL_CHUNK_SIZE = 10
 {% endif %}
 
 SERVER_EMAIL = 'error-reporting@{{cookiecutter.domain_name}}'
-DEFAULT_FROM_EMAIL = 'PROJECT_NAME <info@{{cookiecutter.domain_name}}>'
+DEFAULT_FROM_EMAIL = '{{cookiecutter.project_name}} <info@{{cookiecutter.domain_name}}>'
 ADMINS = (
     ("""{{cookiecutter.author_name}}""", '{{cookiecutter.email}}'),
 )

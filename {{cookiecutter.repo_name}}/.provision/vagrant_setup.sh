@@ -5,7 +5,7 @@ VM_IP={{cookiecutter.vm_ip}}
 VIRTUALENV_DIR=/sites
 USER_HOME=/home/vagrant
 PROJECT_SOURCE=${VIRTUALENV_DIR}/${PROJECT_NAME}/source
-SETTINGS_FOLDER=${PROJECT_SOURCE}/${PROJECT_NAME}/${PROJECT_NAME}/settings
+SETTINGS_FOLDER=${PROJECT_SOURCE}/${PROJECT_NAME}/settings
 
 echo "Environment installation is beginning. This may take a few minutes.."
 
@@ -49,7 +49,7 @@ sudo -u postgres psql -c "create database ${PROJECT_NAME};"
 sudo -u postgres psql -c "grant all privileges on database ${PROJECT_NAME} to ${PROJECT_NAME};"
 
 echo "Setting current django config.."
-sudo su - vagrant /bin/bash -c "ln -s ${SETTINGS_FOLDER}/dev.py ${PROJECT_NAME}/${PROJECT_NAME}/current_settings.py"
+sudo su - vagrant /bin/bash -c "ln -s ${SETTINGS_FOLDER}/dev.py ${PROJECT_SOURCE}/${PROJECT_NAME}/current_settings.py"
 
 echo ""
 echo "==============================="

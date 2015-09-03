@@ -1,4 +1,4 @@
-from PROJECT_NAME.settings.staging import *
+from {{cookiecutter.repo_name}}.settings.staging import *
 
 SECRET_KEY = '' # Update me
 
