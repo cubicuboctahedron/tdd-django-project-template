@@ -1,7 +1,7 @@
 #!/bin/bash
-PROJECT_NAME=$1
-PROJECT_HOST_NAME=$2
-VM_IP=$3
+PROJECT_NAME={{cookiecutter.repo_name}}
+PROJECT_HOST_NAME={{cookiecutter.domain_name}}
+VM_IP={{cookiecutter.vm_ip}}
 VIRTUALENV_DIR=/sites
 USER_HOME=/home/vagrant
 PROJECT_SOURCE=${VIRTUALENV_DIR}/${PROJECT_NAME}/source
@@ -25,7 +25,9 @@ apt-get -y install python-dev python3-dev libpq-dev
 echo "Installing virtualenvwrapper from pip.."
 pip install virtualenvwrapper fabric
 
-git clone https://github.com/cubicuboctahedron/dotfiles.git && sudo su - vagrant /bin/bash -c "set -- -f; source ~/dotfiles/bootstrap.sh"
+{% if cookiecutter.dotfile_configs_repo_url %}
+git clone {{cookiecutter.dotfile_configs_repo_url}} && sudo su - vagrant /bin/bash -c "set -- -f; source ~/dotfiles/bootstrap.sh"
+{% endif %}
 
 echo "WORKON_HOME=${VIRTUALENV_DIR}" >> ${USER_HOME}/.bash_profile
 echo "source /usr/local/bin/virtualenvwrapper.sh" >> ${USER_HOME}/.bash_profile
@@ -46,22 +48,10 @@ sudo -u postgres psql -c "create user ${PROJECT_NAME} with password '${PROJECT_N
 sudo -u postgres psql -c "create database ${PROJECT_NAME};"
 sudo -u postgres psql -c "grant all privileges on database ${PROJECT_NAME} to ${PROJECT_NAME};"
 
-echo "Changing django project name.."
-sudo su - vagrant /bin/bash -c "\
-    git mv ${PROJECT_SOURCE}/project_name/project_name ${PROJECT_SOURCE}/project_name/${PROJECT_NAME};\
-    git mv ${PROJECT_SOURCE}/project_name ${PROJECT_SOURCE}/${PROJECT_NAME};
-    git add ${PROJECT_SOURCE}/${PROJECT_NAME}"
-
-echo "Updating django configs.."
-sudo su - vagrant /bin/bash -c "\
-    sed -i 's/PROJECT_NAME/${PROJECT_NAME}/g' ${SETTINGS_FOLDER}/*.py;\
-    sed -i 's/PROJECT_HOST_NAME/${PROJECT_HOST_NAME}/g' ${SETTINGS_FOLDER}/*.py;\
-    sed -i 's/VIRTUAL_MACHINE_IP/${VM_IP}/g' ${SETTINGS_FOLDER}/*.py;"
-
 echo "Setting current django config.."
 sudo su - vagrant /bin/bash -c "ln -s ${SETTINGS_FOLDER}/dev.py ${PROJECT_NAME}/${PROJECT_NAME}/current_settings.py"
 
+echo ""
 echo "==============================="
-echo "Done!"
-echo "You may now change repo's origin url (if you cloned this repository), commit and push all changes done."
+echo "=            Done!            ="
 echo "==============================="

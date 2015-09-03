@@ -1,14 +1,12 @@
 {
+    "vm_dotfile_configs_repo_url": ""
+    "vm_ip": "10.10.10.100"
     "project_name": "project_name",
     "repo_name": "{{ cookiecutter.project_name|replace(' ', '_') }}",
     "author_name": "Your Name",
     "email": "Your email",
     "description": "A short description of the project.",
     "domain_name": "example.com",
-    "version": "0.1.0",
-    "timezone": "UTC",
-    "now": "2015/01/13",
-    "year": "{{ cookiecutter.now[:4] }}",
     "use_celery": "n",
     "use_websockets": "n",
     "use_rest_framework": "n",
