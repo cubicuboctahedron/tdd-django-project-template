@@ -6,15 +6,27 @@ from fabric.contrib.console import confirm
 from fabric.context_managers import shell_env
 from fabric.api import env, local, run, put, sudo, settings, prefix
 
-env.use_ssh_config = True
-
+# Update these settings manually
 env.port = 22 # change this if using non-default SSH port
-PROJECT_NAME = 'set me'
 PRODUCTION_SERVER_IP = 'set me'
 REPO_URL = 'set me'
 BACKUP_REPO_URL = 'set me'
-DEFAULT_USER_PASSWORD = 'set me'
-ADMIN_EMAIL = 'set me'
+DEFAULT_USER_PASSWORD = 'changeme'
+# 
+
+env.use_ssh_config = True
+PROJECT_NAME = {{cookiecutter.repo_name}}
+ADMIN_EMAIL = {{cookiecutter.author_name}}
+{% if cookiecutter.use_websockets == "y" %}
+WITH_WEBSOCKETS = True
+{% else %}
+WITH_WEBSOCKETS = False
+{% endif %}
+{% if cookiecutter.use_celery == "y" %}
+WITH_CELERY = True
+{% else %}
+WITH_CELERY = False
+{% endif %}
 
 def _get_command(use_sudo):
     if use_sudo:
@@ -25,7 +37,7 @@ def _get_command(use_sudo):
 def _configure(host, project_name, repo_url, branch=None, source_folder=None, 
                venv_folder=None, server_port=None, staging=False, demo=False,
                dev=False, db_name=None, user=None, ip=None, backup_on_deploy=True,
-               with_websockets=False, with_celery=False):
+               with_websockets=WITH_WEBSOCKETS, with_celery=WITH_CELERY):
     config = {
         'project_name': project_name,
         'repo': repo_url,
