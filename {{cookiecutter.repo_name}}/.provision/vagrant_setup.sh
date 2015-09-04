@@ -24,10 +24,6 @@ apt-get -y install python-dev python3-dev libpq-dev
 echo "Installing virtualenvwrapper from pip.."
 pip install virtualenvwrapper
 
-{% if cookiecutter.dotfile_configs_repo_url -%}
-git clone {{cookiecutter.dotfile_configs_repo_url}} && sudo su - vagrant /bin/bash -c "set -- -f; source ~/dotfiles/bootstrap.sh"
-{%- endif %}
-
 echo "WORKON_HOME=${VIRTUALENV_DIR}" >> ${USER_HOME}/.bash_profile
 echo "source /usr/local/bin/virtualenvwrapper.sh" >> ${USER_HOME}/.bash_profile
 

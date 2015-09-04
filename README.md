@@ -13,8 +13,6 @@ Workflow
 
 - run `cookiecutter git@github.com:cubicuboctahedron/tdd-django-project-template.git`
  You will need to answer these questions in order to generate your project:
- - `vm_dotfile_configs_repo_url (default is "")?` - use your custom . configs in [Mathias’s dotfiles](https://github.com/mathiasbynens/dotfiles) format
- - `vm_ip (default is "10.10.10.100")?` - IP address of the dev VM
  - `project_name (default is "project_name")?` - name of the project
  - `repo_name (default is "project_name")?` - repo and django project name, without spaces
  - `author_name (default is "Your Name")?` - your name
@@ -24,6 +22,7 @@ Workflow
  - `use_celery (default is "n")?` - use or not celery (all emails will be sent by celery delayed tasks)
  - `use_websockets (default is "n")?` - adds websocket support with the [ws4redis](https://github.com/jrief/django-websocket-redis) package
  - `use_rest_framework (default is "n")?`  - adds [Django REST framework](https://github.com/tomchristie/django-rest-framework)
+ - `vm_ip (default is "10.10.10.100")?` - IP address of the dev VM
     
  You can now initialize GIT repository and push your project:
 
