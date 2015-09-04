@@ -61,5 +61,6 @@ Notes
 
 Thanks
 -----
-to [pydanny](https://github.com/pydanny) for the  [cookiecutter-django](https://github.com/pydanny/cookiecutter-django) project
-to [hjwp](https://github.com/hjwp) for the book [Test-Driven Development with Python](http://chimera.labs.oreilly.com/books/1234000000754)
+- to [pydanny](https://github.com/pydanny) for the  [cookiecutter-django](https://github.com/pydanny/cookiecutter-django) project
+
+- to [hjwp](https://github.com/hjwp) for the book [Test-Driven Development with Python](http://chimera.labs.oreilly.com/books/1234000000754)
