@@ -22,7 +22,7 @@ echo "Installing required packages for python package 'psycopg2'.."
 apt-get -y install python-dev python3-dev libpq-dev
 
 echo "Installing virtualenvwrapper from pip.."
-pip install virtualenvwrapper fabric
+pip install virtualenvwrapper
 
 {% if cookiecutter.dotfile_configs_repo_url -%}
 git clone {{cookiecutter.dotfile_configs_repo_url}} && sudo su - vagrant /bin/bash -c "set -- -f; source ~/dotfiles/bootstrap.sh"

@@ -17,6 +17,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'djangobower',
     'django.contrib.sitemaps',
     'robots',
@@ -155,7 +156,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 # Auth
-AUTH_USER_MODEL = 'main.User'
+#AUTH_USER_MODEL = 'main.User'
 
 LOGIN_URL = '/user/login'
 LOGIN_REDIRECT_URL = 'main:index'
@@ -166,8 +167,6 @@ WEBSOCKET_URL = '/ws/'
 WS4REDIS_PREFIX = 'ws'
 WS4REDIS_EXPIRE = 0
 WS4REDIS_HEARTBEAT = 'heartbeat'
-from main.websockets import get_allowed_websocket_channels
-WS4REDIS_ALLOWED_CHANNELS = get_allowed_websocket_channels
 {%- endif %}
 
 {% if cookiecutter.use_rest_framework == "y" -%}
