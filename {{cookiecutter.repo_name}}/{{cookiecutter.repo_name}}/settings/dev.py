@@ -7,7 +7,7 @@ DATABASES["default"]["USER"] = "{{cookiecutter.repo_name}}"
 DATABASES["default"]["PASSWORD"] = "{{cookiecutter.repo_name}}"
 
 DEBUG = True
-TEMPLATES[0]['options']['debug'] = True
+TEMPLATES[0]['OPTIONS']['debug'] = True
 INTERNAL_IPS = ['127.0.0.1', '{{cookiecutter.vm_ip}}', ]
 
 # Disable django-compressor for dev environment 
