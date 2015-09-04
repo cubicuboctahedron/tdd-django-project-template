@@ -58,3 +58,8 @@ Config templates can be found in `deploy/configs`.
 Notes
 -----
 **Please note that this is a work in progress project.**
+
+Thanks
+-----
+to [pydanny](https://github.com/pydanny) for the  [cookiecutter-django](https://github.com/pydanny/cookiecutter-django) project
+to [hjwp](https://github.com/hjwp) for the book [Test-Driven Development with Python](http://chimera.labs.oreilly.com/books/1234000000754)
