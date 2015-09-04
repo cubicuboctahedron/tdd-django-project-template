@@ -8,7 +8,7 @@ ALLOWED_HOSTS = ['{{cookiecutter.domain_name}}', 'www.{{cookiecutter.domain_name
 # Updated in deployment script
 DATABASES["default"]["NAME"] = '{{cookiecutter.repo_name}}'
 DATABASES["default"]["USER"] = '{{cookiecutter.repo_name}}'
-DATABASES["default"]["PASSWORD"] = ''
+DATABASES["default"]["PASSWORD"] = "{{cookiecutter.repo_name}}"
 
 # HTTPS
 SESSION_COOKIE_SECURE = True

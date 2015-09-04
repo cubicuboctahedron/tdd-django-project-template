@@ -7,13 +7,11 @@ BASE_DIR = os.path.dirname(os.path.realpath(os.path.dirname(__file__) + "/.."))
 SITE_ID = 1
 
 DEBUG = False
-TEMPLATE_DEBUG = False
 
 # Application definition
 INSTALLED_APPS = (
     'django.contrib.auth',
     'main',
-    'polymorphic',
     'django.contrib.admin',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -23,24 +21,20 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'robots',
     'sekizai',
-    'south',
     'djrill',
     'compressor',
-    #'crispy_forms',
-    #'reversion',
-    #'ws4redis',
-    {% if cookiecutter.use_rest_framework == "y" %}
-    'oauth2_provider',
+    'crispy_forms',
+    {% if cookiecutter.use_rest_framework == "y" -%}
     'rest_framework',
-    {% endif %}
+    {%- endif %}
     #'bootstrap_pagination',
-    {% if cookiecutter.use_websockets == "y" %}
+    {% if cookiecutter.use_websockets == "y" -%}
     "ws4redis",
-    {% endif %}
-    {% if cookiecutter.use_celery == "y" %}
+    {%- endif %}
+    {% if cookiecutter.use_celery == "y" -%}
     'kombu.transport.django',
     'djcelery_email',
-    {% endif %}
+    {%- endif %}
 )
 
 MIDDLEWARE_CLASSES = (
@@ -60,15 +54,16 @@ TEMPLATES = [
         'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': False,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'sekizai.context_processors.sekizai',
-                {% if cookiecutter.use_websockets == "y" %}
+                {% if cookiecutter.use_websockets == "y" -%}
                 'ws4redis.context_processors.default',
-                {% endif %}
+                {%- endif %}
             ],
         },
     },
@@ -137,7 +132,7 @@ PRIVATE_FILES_MEDIA_ROOT = os.path.abspath(
 # Email
 MANDRILL_API_KEY = "" # Used in production
 MANDRILL_TEST_API_KEY = "" # Used in integration tests
-{% if cookiecutter.use_celery == "n" %}
+{% if cookiecutter.use_celery == "n" -%}
 # Send emails via Mandrill (djrill package)
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 {% else %}
@@ -150,7 +145,7 @@ CELERY_EMAIL_TASK_CONFIG = {
     'max_retries': 3,
 }
 CELERY_EMAIL_CHUNK_SIZE = 10
-{% endif %}
+{%- endif %}
 
 SERVER_EMAIL = 'error-reporting@{{cookiecutter.domain_name}}'
 DEFAULT_FROM_EMAIL = '{{cookiecutter.project_name}} <info@{{cookiecutter.domain_name}}>'
@@ -165,7 +160,7 @@ AUTH_USER_MODEL = 'main.User'
 LOGIN_URL = '/user/login'
 LOGIN_REDIRECT_URL = 'main:index'
 
-{% if cookiecutter.use_websockets == "y" %}
+{% if cookiecutter.use_websockets == "y" -%}
 # Websockets
 WEBSOCKET_URL = '/ws/'
 WS4REDIS_PREFIX = 'ws'
@@ -173,21 +168,18 @@ WS4REDIS_EXPIRE = 0
 WS4REDIS_HEARTBEAT = 'heartbeat'
 from main.websockets import get_allowed_websocket_channels
 WS4REDIS_ALLOWED_CHANNELS = get_allowed_websocket_channels
-{% endif %}
+{%- endif %}
 
-{% if cookiecutter.use_rest_framework == "y" %}
+{% if cookiecutter.use_rest_framework == "y" -%}
 # REST-Framework
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-    ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
 }
-{% endif %}
+{%- endif %}
 
 # Date formatting
 DATETIME_FIELD_FORMAT = '%-d %b %Y %H:%M'

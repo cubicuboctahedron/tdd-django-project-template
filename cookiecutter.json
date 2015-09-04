@@ -1,6 +1,4 @@
 {
-    "vm_dotfile_configs_repo_url": "",
-    "vm_ip": "10.10.10.100",
     "project_name": "project_name",
     "repo_name": "{{ cookiecutter.project_name|replace(' ', '_') }}",
     "author_name": "Your Name",
@@ -10,4 +8,6 @@
     "use_celery": "n",
     "use_websockets": "n",
     "use_rest_framework": "n"
+    "vm_dotfile_configs_repo_url": "",
+    "vm_ip": "10.10.10.100",
 }

@@ -4,10 +4,10 @@ SECRET_KEY = '' # Update me
 
 DATABASES["default"]["NAME"] = "{{cookiecutter.repo_name}}"
 DATABASES["default"]["USER"] = "{{cookiecutter.repo_name}}"
-DATABASES["default"]["PASSWORD"] = ""
+DATABASES["default"]["PASSWORD"] = "{{cookiecutter.repo_name}}"
 
 DEBUG = True
-TEMPLATE_DEBUG = True
+TEMPLATES['options']['debug'] = True
 INTERNAL_IPS = ['127.0.0.1', '{{cookiecutter.vm_ip}}', ]
 
 # Disable django-compressor for dev environment 
@@ -80,9 +80,9 @@ LOGGING = {
     },
 }
 
-{% if cookiecutter.use_websockets == "y" %}
+{% if cookiecutter.use_websockets == "y" -%}
 WSGI_APPLICATION = 'ws4redis.django_runserver.application'
-{% endif %}
+{%- endif %}
 
 if TEST:
     COMPRESS_ENABLED = True
@@ -93,7 +93,7 @@ if TEST:
     # example: use_postgres=1 ./manage.py test
     try:
         os.environ['use_postgres']
-        print 'Using postrgresql'
+        print('Using postrgresql')
     except:
         # sqlite
         DATABASES = {

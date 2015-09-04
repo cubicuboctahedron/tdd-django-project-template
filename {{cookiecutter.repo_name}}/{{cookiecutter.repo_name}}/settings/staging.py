@@ -8,7 +8,7 @@ SECRET_KEY = '' #Update me
 # Updated in deployment script
 DATABASES["default"]["NAME"] = "{{cookiecutter.repo_name}}"
 DATABASES["default"]["USER"] = "{{cookiecutter.repo_name}}"
-DATABASES["default"]["PASSWORD"] = ""
+DATABASES["default"]["PASSWORD"] = "{{cookiecutter.repo_name}}"
 
 ALLOWED_HOSTS = ['staging.{{cookiecutter.domain_name}}', ]
 
@@ -61,9 +61,9 @@ if TEST:
     USE_HTTPS = False
     os.environ['HTTPS'] = "off"
 
-    {% if cookiecutter.use_websockets == "y" %}
+    {% if cookiecutter.use_websockets == "y" -%}
     WSGI_APPLICATION = 'ws4redis.django_runserver.application'
-    {% endif %}
+    {%- endif %}
 
     PROJECT_APPS = (
         'main',

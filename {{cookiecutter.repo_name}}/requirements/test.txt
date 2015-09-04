@@ -1,0 +1,4 @@
+-r base.txt
+
+django-nose==1.4.1
+django-jenkins==0.17.0
